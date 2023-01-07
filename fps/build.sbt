@@ -6,6 +6,7 @@ ThisBuild / organization := "misis"
 val circeVersion = "0.14.1"
 val akkaVersion = "2.6.18"
 val akkaHttpVersion = "10.2.7"
+val akkaHttpJsonVersion = "1.39.2"
 
 lazy val root = (project in file("."))
   .settings(
@@ -16,6 +17,7 @@ lazy val root = (project in file("."))
       "io.circe" %% "circe-parser" % circeVersion,
       "com.typesafe.akka" %% "akka-actor" % akkaVersion,
       "com.typesafe.akka" %% "akka-stream" % akkaVersion,
-      "com.typesafe.akka" %% "akka-http" % akkaHttpVersion
+      "com.typesafe.akka" %% "akka-http" % akkaHttpVersion,
+      "de.heikoseeberger" %% "akka-http-circe" % akkaHttpJsonVersion
     )
   )
