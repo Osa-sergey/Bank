@@ -1,0 +1,35 @@
+GET http://localhost:8080/account
+
+###
+POST http://localhost:8080/account
+Content-Type: application/json
+
+{"username":  "Serg", "balance":  100}
+
+###
+GET http://localhost:8080/account
+
+###
+GET http://localhost:8080/account/562b4225-13eb-4da9-a74d-b5a5a0d9ae3b
+
+###
+PUT http://localhost:8080/account
+Content-Type: application/json
+
+{"id": "562b4225-13eb-4da9-a74d-b5a5a0d9ae3b", "username": "Sergei"}
+
+###
+POST http://localhost:8080/account
+Content-Type: application/json
+
+{"username":  "Serg", "balance":  100}
+
+###
+GET http://localhost:8080/account
+
+###
+DELETE http://localhost:8080/account/76ba1efc-ce85-4d55-a6a9-9a8c51c63b8a
+
+###
+GET http://localhost:8080/account
+

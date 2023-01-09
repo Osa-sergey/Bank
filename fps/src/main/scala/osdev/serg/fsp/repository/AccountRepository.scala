@@ -13,6 +13,6 @@ trait AccountRepository {
   def getAll(): Future[Seq[Account]]
   def updateUsername(account: UpdateAccountUsername): Future[Option[Account]]
   def putMoney(account: PutMoneyOnAccount): Future[Either[String, Account]]
-  def getMoney(account: GetMoneyFromAccount): Future[Either[String,Account]]
+  def getMoney(account: GetMoneyFromAccount): Future[Either[String, Account]]
 
 }
