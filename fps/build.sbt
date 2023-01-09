@@ -9,6 +9,7 @@ val akkaHttpVersion = "10.2.7"
 val akkaHttpJsonVersion = "1.39.2"
 val slickVersion = "3.3.3"
 val postgresVersion = "42.3.1"
+val logbackVersion = "1.2.3"
 
 lazy val root = (project in file("."))
   .settings(
@@ -27,5 +28,7 @@ lazy val root = (project in file("."))
       "com.typesafe.slick" %% "slick" % slickVersion,
       "com.typesafe.slick" %% "slick-hikaricp" % slickVersion,
       "org.postgresql" % "postgresql" % postgresVersion,
+
+      "ch.qos.logback" % "logback-classic" % logbackVersion
     )
   )
