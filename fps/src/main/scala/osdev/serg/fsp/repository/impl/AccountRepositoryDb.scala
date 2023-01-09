@@ -18,7 +18,7 @@ class AccountRepositoryDb(implicit val ex: ExecutionContext, db: Database) exten
   }
 
   override def delete(id: UUID): Future[Unit] = {
-    db.run{
+    db.run {
       accountTable
         .filter(_.id === id)
         .delete
@@ -26,7 +26,7 @@ class AccountRepositoryDb(implicit val ex: ExecutionContext, db: Database) exten
   }
 
   override def get(id: UUID): Future[Account] = {
-    db.run{
+    db.run {
       accountTable
         .filter(_.id === id)
         .result
@@ -35,7 +35,7 @@ class AccountRepositoryDb(implicit val ex: ExecutionContext, db: Database) exten
   }
 
   override def find(id: UUID): Future[Option[Account]] = {
-    db.run{
+    db.run {
       accountTable
         .filter(_.id === id)
         .result
@@ -59,7 +59,48 @@ class AccountRepositoryDb(implicit val ex: ExecutionContext, db: Database) exten
     } yield res
   }
 
-  override def putMoney(account: PutMoneyOnAccount): Future[Either[String, Account]] = ???
+  override def putMoney(request: PutMoneyOnAccount): Future[Either[String, Account]] = {
+    val accForChange = accountTable
+      .filter(_.id === request.id)
+      .map(_.balance)
+    for {
+      oldBalanceOption <- db.run(accForChange.result.headOption)
+      incomingSum = request.balance
+      updateBalance = oldBalanceOption.map { oldBalance =>
+        Right(oldBalance + incomingSum)
+      }.getOrElse(Left("Счет не найден"))
+      future = updateBalance.map(balance => db.run {
+        accForChange.update(balance)
+      }) match {
+        case Right(future) => future.map(Right(_))
+        case Left(s) => Future.successful(Left(s))
+      }
+      updated <- future
+      res <- find(request.id)
+    } yield updated.map(_ => res.get)
+  }
 
-  override def getMoney(account: GetMoneyFromAccount): Future[Either[String, Account]] = ???
+  override def getMoney(request: GetMoneyFromAccount): Future[Either[String, Account]] = {
+    val accForChange = accountTable
+      .filter(_.id === request.id)
+      .map(_.balance)
+    for {
+      oldBalanceOption <- db.run(accForChange.result.headOption)
+      outgoingSum = request.balance
+      updateBalance = oldBalanceOption.map { oldBalance =>
+        if ((oldBalance - outgoingSum) < 0)
+          Left("Недостаточно денег на счету")
+        else Right(oldBalance - outgoingSum)
+      }.getOrElse(Left("Счет не найден"))
+      future = updateBalance.map(balance => db.run {
+        accForChange.update(balance)
+      }) match {
+        case Right(futute) => futute.map(Right(_))
+        case Left(s) => Future.successful(Left(s))
+      }
+      updated <- future
+      res <- find(request.id)
+    } yield updated.map(_ => res.get)
+  }
+
 }

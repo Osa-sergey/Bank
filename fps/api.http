@@ -33,3 +33,21 @@ DELETE http://localhost:8080/account/76ba1efc-ce85-4d55-a6a9-9a8c51c63b8a
 ###
 GET http://localhost:8080/account
 
+###
+
+PUT http://localhost:8080/account/balance/get
+Content-Type: application/json
+
+{"id": "562b4225-13eb-4da9-a74d-b5a5a0d9ae3b", "balance": 100}
+
+###
+PUT http://localhost:8080/account/balance/get
+Content-Type: application/json
+
+{"id": "562b4225-13eb-4da9-a74d-b5a5a0d9ae3b", "balance": 100}
+
+###
+PUT http://localhost:8080/account/balance/put
+Content-Type: application/json
+
+{"id": "562b4225-13eb-4da9-a74d-b5a5a0d9ae3b", "balance": 250}
