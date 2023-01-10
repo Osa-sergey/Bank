@@ -5,11 +5,11 @@ import akka.http.scaladsl.Http
 import akka.http.scaladsl.server.Directives._
 import slick.jdbc.PostgresProfile.api._
 import osdev.serg.fsp.db.InitDb
-import osdev.serg.fsp.repository.AccountRepository
-import osdev.serg.fsp.repository.impl.AccountRepositoryDb
-import osdev.serg.fsp.route.{AccountRoute, HealthCheckRoute}
-import osdev.serg.fsp.service.AccountService
-import osdev.serg.fsp.service.impl.BaseAccountService
+import osdev.serg.fsp.repository.{AccountRepository, TransactionRepository}
+import osdev.serg.fsp.repository.impl.{AccountRepositoryDb, TransactionRepositoryDb}
+import osdev.serg.fsp.route.{AccountRoute, HealthCheckRoute, TransactionRoute}
+import osdev.serg.fsp.service.{AccountService, TransactionService}
+import osdev.serg.fsp.service.impl.{BaseAccountService, BaseTransactionService}
 import slick.jdbc.PostgresProfile
 
 import scala.concurrent.ExecutionContextExecutor
@@ -22,11 +22,14 @@ object FspApp extends App {
 
   new InitDb().prepare()
   private val accountRepository: AccountRepository = new AccountRepositoryDb()
+  private val transactionRepository: TransactionRepository = new TransactionRepositoryDb()
   private val accountService: AccountService = new BaseAccountService(accountRepository)
+  private val transactionService: TransactionService = new BaseTransactionService(accountService, transactionRepository)
 
   private val healthCheckRoute = new HealthCheckRoute().route
   private val accountRoute = new AccountRoute(accountService).route
+  private val transactionRoute = new TransactionRoute(transactionService).route
   Http()
     .newServerAt("0.0.0.0", 8080)
-    .bind(healthCheckRoute ~ accountRoute)
+    .bind(healthCheckRoute ~ accountRoute ~ transactionRoute)
 }

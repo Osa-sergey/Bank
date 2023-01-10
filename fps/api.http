@@ -51,3 +51,37 @@ PUT http://localhost:8080/account/balance/put
 Content-Type: application/json
 
 {"id": "562b4225-13eb-4da9-a74d-b5a5a0d9ae3b", "balance": 250}
+
+###
+POST http://localhost:8080/account
+Content-Type: application/json
+
+{"username":  "NewSerg", "balance":  1000}
+
+###
+POST http://localhost:8080/transaction
+Content-Type: application/json
+
+{"from_account": "1426856b-df24-4b0f-9f84-3ed6b40de4c2", "to_account":  "7018bfb1-cebe-4484-ab26-8e8e26bf0d05", "amount":  600}
+
+###
+POST http://localhost:8080/transaction
+Content-Type: application/json
+
+{"from_account": "1426856b-df24-4b0f-9f84-3ed6b40de4c2", "to_account":  "7018bfb1-cebe-4484-ab26-8e8e26bf0d05", "amount":  600}
+
+###
+GET http://localhost:8080/transaction
+
+### Запросы для проверки не существования одного из счетов в транзакции
+###
+POST http://localhost:8080/transaction
+Content-Type: application/json
+
+{"from_account": "1426856b-df24-4b0f-9f84-3ed6b40de4c3", "to_account":  "7018bfb1-cebe-4484-ab26-8e8e26bf0d05", "amount":  600}
+
+###
+POST http://localhost:8080/transaction
+Content-Type: application/json
+
+{"from_account": "1426856b-df24-4b0f-9f84-3ed6b40de4c2", "to_account":  "7018bfb1-cebe-4484-ab26-8e8e26bf0d07", "amount":  600}
