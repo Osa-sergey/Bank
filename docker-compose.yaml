@@ -12,5 +12,19 @@ services:
     volumes:
       - bank_db_volume:/var/lib/postgresql/data
 
+  fps:
+    image: fps
+    container_name: fps
+    depends_on:
+      - db
+    build:
+      dockerfile: ./Dockerfile
+      context: ./fps/
+    environment:
+      PG_HOST: db
+      PG_PORT: 5432
+    ports:
+      - "8080:8080"
+
 volumes:
   bank_db_volume:
