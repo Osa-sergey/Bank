@@ -12,13 +12,14 @@ RUN apt-get install sbt
 
 WORKDIR /build
 COPY . .
-RUN cd fps && sbt compile
+RUN sbt stage
 
-## 2. Образ запуска
-#FROM $APP_RUNNER
-#
-#WORKDIR /app
-#COPY --from=builder /build/fps/target/universal/stage/bin bin
-#COPY --from=builder /build/fps/target/universal/stage/lib lib
-#
-#ENTRYPOINT sleep 2 && bin/fps
+
+### 2. Образ запуска
+FROM $APP_RUNNER
+
+WORKDIR /app
+COPY --from=builder /build/target/universal/stage/bin bin
+COPY --from=builder /build/target/universal/stage/lib lib
+
+ENTRYPOINT sleep 1 && bin/fps

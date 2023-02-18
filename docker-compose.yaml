@@ -15,9 +15,14 @@ services:
   fps:
     image: fps
     container_name: fps
+    depends_on:
+      - db
     build:
-      dockerfile: ../Dockerfile
-      context: ../
+      dockerfile: ./Dockerfile
+      context: ./fps/
+    environment:
+      PG_HOST: db
+      PG_PORT: 5432
     ports:
       - "8080:8080"
 
