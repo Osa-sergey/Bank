@@ -3,14 +3,14 @@ package osdev.serg.fsp
 import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.server.Directives._
-import slick.jdbc.PostgresProfile.api._
 import osdev.serg.fsp.db.InitDb
-import osdev.serg.fsp.repository.{AccountRepository, TransactionRepository}
 import osdev.serg.fsp.repository.impl.{AccountRepositoryDb, TransactionRepositoryDb}
+import osdev.serg.fsp.repository.{AccountRepository, TransactionRepository}
 import osdev.serg.fsp.route.{AccountRoute, HealthCheckRoute, TransactionRoute}
-import osdev.serg.fsp.service.{AccountService, TransactionService}
 import osdev.serg.fsp.service.impl.{BaseAccountService, BaseTransactionService}
+import osdev.serg.fsp.service.{AccountService, TransactionService}
 import slick.jdbc.PostgresProfile
+import slick.jdbc.PostgresProfile.api._
 
 import scala.concurrent.ExecutionContextExecutor
 

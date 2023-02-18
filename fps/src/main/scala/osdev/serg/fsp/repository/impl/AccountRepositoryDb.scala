@@ -1,7 +1,7 @@
 package osdev.serg.fsp.repository.impl
 
 import osdev.serg.fsp.db.AccountDb._
-import osdev.serg.fsp.model.{Account, CreateAccount, GetMoneyFromAccount, PutMoneyOnAccount, UpdateAccountUsername}
+import osdev.serg.fsp.model.Account
 import osdev.serg.fsp.repository.AccountRepository
 import slick.jdbc.PostgresProfile.api._
 
@@ -16,14 +16,6 @@ class AccountRepositoryDb(implicit val ex: ExecutionContext, db: Database) exten
     } yield res
   }
 
-  override def delete(id: UUID): Future[Unit] = {
-    db.run {
-      accountTable
-        .filter(_.id === id)
-        .delete
-    }.map(_ => ())
-  }
-
   override def get(id: UUID): Future[Account] = {
     db.run {
       accountTable
@@ -33,13 +25,12 @@ class AccountRepositoryDb(implicit val ex: ExecutionContext, db: Database) exten
     }
   }
 
-  override def find(id: UUID): Future[Option[Account]] = {
+  override def delete(id: UUID): Future[Unit] = {
     db.run {
       accountTable
         .filter(_.id === id)
-        .result
-        .headOption
-    }
+        .delete
+    }.map(_ => ())
   }
 
   override def getAll(): Future[Seq[Account]] = {
@@ -56,6 +47,15 @@ class AccountRepositoryDb(implicit val ex: ExecutionContext, db: Database) exten
       }
       res <- find(account.id)
     } yield res
+  }
+
+  override def find(id: UUID): Future[Option[Account]] = {
+    db.run {
+      accountTable
+        .filter(_.id === id)
+        .result
+        .headOption
+    }
   }
 
   override def updateBalance(account: Account): Future[Option[Account]] = {

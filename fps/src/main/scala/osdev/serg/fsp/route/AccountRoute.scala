@@ -5,7 +5,7 @@ import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
 import de.heikoseeberger.akkahttpcirce._
 import io.circe.generic.auto._
-import osdev.serg.fsp.model.{Account, CreateAccount, GetMoneyFromAccount, PutMoneyOnAccount, UpdateAccountUsername}
+import osdev.serg.fsp.model._
 import osdev.serg.fsp.service.AccountService
 
 import scala.concurrent.ExecutionContext

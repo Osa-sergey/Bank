@@ -6,6 +6,8 @@ import slick.jdbc.PostgresProfile.api._
 import java.util.UUID
 
 object TransactionDb {
+  val transactionTable = TableQuery[TransactionTable]
+
   class TransactionTable(tag: Tag) extends Table[Transaction](tag, "transaction") {
     val id = column[UUID]("id", O.PrimaryKey)
     val fromAccount = column[UUID]("fromAccount")
@@ -13,6 +15,4 @@ object TransactionDb {
     val amount = column[Int]("amount")
     def * = (id, fromAccount, toAccount, amount)<> ((Transaction.apply _).tupled, Transaction.unapply)
   }
-
-  val transactionTable = TableQuery[TransactionTable]
 }
